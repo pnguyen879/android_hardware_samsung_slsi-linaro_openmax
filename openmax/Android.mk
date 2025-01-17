@@ -22,15 +22,6 @@ EXYNOS_OMX_COMPONENT := $(EXYNOS_OMX_TOP)/component
 
 EXYNOS_VIDEO_CODEC := \
 	$(EXYNOS_OMX_TOP)/../videocodec
-ifeq ($(BOARD_USE_ALP_AUDIO), true)
-    ifeq ($(BOARD_USE_SEIREN_AUDIO), true)
-    EXYNOS_AUDIO_CODEC += \
-        hardware/samsung_slsi-linaro/exynos/libseiren
-    else
-    EXYNOS_AUDIO_CODEC += \
-        hardware/samsung_slsi-linaro/exynos/libsrp
-    endif
-endif
 
 include $(EXYNOS_OMX_TOP)/osal/Android.mk
 include $(EXYNOS_OMX_TOP)/core/Android.mk
@@ -61,21 +52,4 @@ endif
 ifeq ($(BOARD_USE_WFDENC_SUPPORT), true)
 include $(EXYNOS_OMX_COMPONENT)/video/enc/h264wfd/Android.mk
 include $(EXYNOS_OMX_COMPONENT)/video/enc/hevcwfd/Android.mk
-endif
-
-ifeq ($(BOARD_USE_ALP_AUDIO), true)
-    include $(EXYNOS_OMX_COMPONENT)/audio/common/Android.mk
-    ifeq ($(BOARD_USE_SEIREN_AUDIO), true)
-    include $(EXYNOS_OMX_COMPONENT)/audio/seiren_dec/Android.mk
-    include $(EXYNOS_OMX_COMPONENT)/audio/seiren_dec/mp3/Android.mk
-    include $(EXYNOS_OMX_COMPONENT)/audio/seiren_dec/aac/Android.mk
-    include $(EXYNOS_OMX_COMPONENT)/audio/seiren_dec/flac/Android.mk
-    else
-    include $(EXYNOS_OMX_COMPONENT)/audio/dec/Android.mk
-    include $(EXYNOS_OMX_COMPONENT)/audio/dec/mp3/Android.mk
-    endif
-endif
-
-ifeq ($(BOARD_USE_WMA_CODEC), true)
-include $(EXYNOS_OMX_COMPONENT)/audio/dec/wma/Android.mk
 endif
