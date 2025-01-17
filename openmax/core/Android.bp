@@ -1,0 +1,93 @@
+cc_library_shared {
+    name: "libExynosOMX_Core",
+    vendor: true,
+
+    cflags: [
+        "-DUSE_VP9_SUPPORT",
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("openmax", "USE_DISABLE_RAPID_COMPONENT_LOA"), {
+        "true": ["-DUSE_DISABLE_RAPID_COMPONENT_LOA"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_CUSTOM_COMPONENT_SUPPORT"), {
+        "true": ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "TUNNELING_SUPPORT"), {
+        "true": ["-DTUNNELING_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "EGL_IMAGE_SUPPORT"), {
+        "true": ["-DEGL_IMAGE_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_HEVCENC_SUPPORT"), {
+        "true": [],
+        default: [
+            "-DDISABLE_HEVC_ENC_CODEC",
+            "-DDISABLE_CODEC_COMP",
+        ],
+    }) + select(soong_config_variable("openmax", "USE_VP9DEC_SUPPORT"), {
+        "true": [],
+        default: [
+            "-DDISABLE_VP9_DEC_CODEC",
+            "-DDISABLE_CODEC_COMP",
+        ],
+    }) + select(soong_config_variable("openmax", "USE_VP9ENC_SUPPORT"), {
+        "true": [],
+        default: [
+            "-DDISABLE_VP9_ENC_CODEC",
+            "-DDISABLE_CODEC_COMP",
+        ],
+    }) + select(soong_config_variable("openmax", "USE_WFDENC_SUPPORT"), {
+        "true": [],
+        default: [
+            "-DDISABLE_WFD_ENC_CODEC",
+            "-DDISABLE_CODEC_COMP",
+        ],
+    }) + select(soong_config_variable("openmax", "USE_NON_DRM_CODEC_ONLY"), {
+        "true": [],
+        default: [
+            "-DDISABLE_SECURE_CODEC",
+            "-DDISABLE_CODEC_COMP",
+        ],
+    }),
+
+    srcs: [
+        "Exynos_OMX_Component_Register.c",
+        "Exynos_OMX_Core.c",
+    ],
+
+    shared_libs: [
+        "libc",
+        "libdl",
+        "libcutils",
+        "libutils",
+        "liblog",
+        "libExynosOMX_Resourcemanager",
+    ],
+
+    static_libs: [
+        "libExynosOMX_OSAL",
+        "libExynosOMX_Basecomponent",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/graphics/base/libion/include",
+        "system/core/libsystem/include",
+    ],
+}

@@ -1,0 +1,191 @@
+cc_library_static {
+    name: "libExynosOMX_SkypeHD_Enc",
+    vendor: true,
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-DUSE_VENDOR_IMAGE",
+        "-DUSE_SKYPE_HD",
+        "-DBUILD_ENC",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }),
+
+    srcs: [
+        "Exynos_OSAL_SkypeHD.c",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc/h264",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+    ],
+}
+
+cc_library_static {
+    name: "libExynosOMX_SkypeHD_Dec",
+    vendor: true,
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-DUSE_VENDOR_IMAGE",
+        "-DUSE_SKYPE_HD",
+        "-DBUILD_DEC",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }),
+
+    srcs: [
+        "Exynos_OSAL_SkypeHD.c",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec/h264",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+    ],
+}
+
+cc_library_static {
+    name: "libExynosOMX_OSAL",
+    vendor: true,
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-DUSE_VENDOR_IMAGE",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
+        "true": ["-DUSE_DMA_BUF"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
+        "true": ["-DUSE_CSC_HW"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_NON_CACHED_GRAPHICBUFFER"), {
+        "true": ["-DUSE_NON_CACHED_GRAPHICBUFFER"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "CHROMA_VALIGN"), {
+        any @ flag_val: ["-DCHROMA_VALIGN=" + flag_val],
+        default: ["-DCHROMA_VALIGN=1"],
+    }) + select(soong_config_variable("openmax", "USE_WA_ION_BUF_REF"), {
+        "true": ["-DUSE_WA_ION_BUF_REF"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
+        "true": ["-DOMX_USES_EPIC"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_BT709_SUPPORT"), {
+        "true": ["-DUSE_BT709_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "GRALLOC_VERSION0"), {
+        "true": ["-DGRALLOC_VERSION0"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_PRIV_FORMAT"), {
+        "true": ["-DUSE_PRIV_FORMAT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_PRIV_USAGE"), {
+        "true": ["-DUSE_PRIV_USAGE"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_SKYPE_HD"), {
+        "true": ["-DUSE_SKYPE_HD"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_FULL_ST2094_40"), {
+        "true": ["-DUSE_FULL_ST2094_40"],
+        default: [],
+    }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }) + select(soong_config_variable("openmax", "MSCL_EXT_SIZE"), {
+        any @ flag_val: ["-DMSCL_EXT_SIZE=" + flag_val],
+        default: ["-DMSCL_EXT_SIZE=0"],
+    }) + select(soong_config_variable("arm_gralloc", "gralloc_version"), {
+        "none": [
+            "-DGRALLOC_VERSION0",
+            "-DUSE_PRIV_FORMAT",
+        ],
+        "three": [
+            "-DUSE_WA_ION_BUF_REF",
+            "-DUSE_PRIV_USAGE",
+        ],
+        default: [],
+    }),
+
+    srcs: [
+        "Exynos_OSAL_Event.c",
+        "Exynos_OSAL_Queue.c",
+        "Exynos_OSAL_ETC.c",
+        "Exynos_OSAL_Mutex.c",
+        "Exynos_OSAL_Thread.c",
+        "Exynos_OSAL_Memory.c",
+        "Exynos_OSAL_Semaphore.c",
+        "Exynos_OSAL_Library.c",
+        "Exynos_OSAL_Log.c",
+        "Exynos_OSAL_SharedMemory.c",
+        "Exynos_OSAL_Android.cpp",
+        "Exynos_OSAL_ImageConverter.cpp",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    shared_libs: [
+        "libc",
+        "libcutils",
+        "libutils",
+        "liblog",
+        "libion",
+        "libhardware",
+        "libhidlbase",
+        "libui",
+        "libexynosgraphicbuffer",
+        "libion_exynos",
+    ] + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
+        "true": ["libepicoperator"],
+        default: [],
+    }),
+
+    static_libs: [
+        "libExynosVideoApi",
+        "libVendorVideoApi",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/graphics/base/libion/include",
+        "system/core/libsystem/include",
+    ],
+}

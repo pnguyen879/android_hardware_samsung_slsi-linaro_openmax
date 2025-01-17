@@ -1,0 +1,72 @@
+cc_library_static {
+    name: "libExynosOMX_Venc",
+    vendor: true,
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("openmax", "USE_CUSTOM_COMPONENT_SUPPORT"), {
+        "true": ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "TUNNELING_SUPPORT"), {
+        "true": ["-DTUNNELING_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
+        "true": ["-DUSE_DMA_BUF"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_HW_CSC_GRALLOC_SOURCE"), {
+        "true": ["-DUSE_HW_CSC_GRALLOC_SOURCE"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_FIMC_RGB_ENCODER"), {
+        "true": [
+            "-DUSE_HW_CSC_GRALLOC_SOURCE",
+            "-DUSE_FIMC_CSC",
+        ],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
+        "true": ["-DUSE_CSC_HW"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_VIDEO_EXT_FOR_WFD_HDCP"), {
+        "true": ["-DUSE_VIDEO_EXT_FOR_WFD_HDCP"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_SMALL_SECURE_MEMORY"), {
+        "true": ["-DUSE_SMALL_SECURE_MEMORY"],
+        default: [],
+    }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }),
+
+    srcs: [
+        "Exynos_OMX_VencControl.c",
+        "Exynos_OMX_Venc.c",
+    ],
+
+    shared_libs: [
+        "liblog",
+        "libcsc",
+    ],
+
+    static_libs: [
+        "libVendorVideoApi",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/graphics/base/libion/include",
+        "system/core/libsystem/include",
+    ],
+}

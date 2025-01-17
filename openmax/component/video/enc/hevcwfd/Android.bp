@@ -1,0 +1,83 @@
+cc_library_shared {
+    name: "libOMX.Exynos.HEVC.WFD.Encoder",
+    relative_install_path: "omx",
+    vendor: true,
+    enabled: select(soong_config_variable("openmax", "USE_WFDENC_SUPPORT"), {
+        "true": true,
+        default: false,
+    }),
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-Wno-unused-parameter",
+        "-Wno-unused-function",
+        "-DUSE_ANDROID",
+    ] + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
+        "true": ["-DUSE_DMA_BUF"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
+        "true": ["-DUSE_CSC_HW"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_CUSTOM_COMPONENT_SUPPORT"), {
+        "true": ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_SINGLE_PLANE_IN_DRM"), {
+        "true": ["-DUSE_SINGLE_PLANE_IN_DRM"],
+        default: [],
+    }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
+        any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
+        default: [],
+    }),
+
+    srcs: [
+        "Exynos_OMX_HEVCenc_wfd.c",
+        "library_register.c",
+    ],
+
+    shared_libs: [
+        "libc",
+        "libcutils",
+        "libutils",
+        "libdl",
+        "liblog",
+        "libhardware",
+        "libhidlbase",
+        "libui",
+        "libexynosgraphicbuffer",
+        "libstagefright_foundation",
+        "libexynosv4l2",
+        "libion_exynos",
+        "libcsc",
+        "libExynosOMX_Resourcemanager",
+    ] + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
+        "true": ["libepicoperator"],
+        default: [],
+    }),
+
+    static_libs: [
+        "libExynosOMX_Venc",
+        "libVendorVideoApi",
+        "libExynosOMX_OSAL",
+        "libExynosOMX_Basecomponent",
+        "libExynosVideoApi",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/openmax/openmax/core",
+        "hardware/samsung_slsi-linaro/openmax/openmax/include/exynos",
+        "hardware/samsung_slsi-linaro/openmax/openmax/osal",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/common",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/dec",
+        "hardware/samsung_slsi-linaro/openmax/openmax/component/video/enc",
+        "hardware/samsung_slsi-linaro/openmax/videocodec/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/graphics/base/libion/include",
+        "system/core/libsystem/include",
+    ],
+}

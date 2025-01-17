@@ -1,0 +1,65 @@
+cc_library_static {
+    name: "libExynosVideoApi",
+    vendor: true,
+    shared_libs: [
+        "libion_exynos",
+        "liblog",
+    ],
+
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-label",
+        "-Wno-unused-function",
+    ] + select(soong_config_variable("openmax", "USE_EXYNOS_MEDIA_EXT"), {
+        "true": ["-DUSE_EXYNOS_MEDIA_EXT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_DEFINE_H264_SEI_TYPE"), {
+        "true": ["-DUSE_DEFINE_H264_SEI_TYPE"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_ORIGINAL_HEADER"), {
+        "true": ["-DUSE_ORIGINAL_HEADER"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_MFC_HEADER"), {
+        "true": ["-DUSE_MFC_HEADER"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "MAINLINE_FEATURE_IN_SINCE_4_19"), {
+        "true": ["-DMAINLINE_FEATURE_IN_SINCE_4_19"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_HEVC_HWIP"), {
+        "true": ["-DUSE_HEVC_HWIP"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_DEINTERLACING_SUPPORT"), {
+        "true": ["-DUSE_DEINTERLACING_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "USE_SINGLE_PALNE_SUPPORT"), {
+        "true": ["-DUSE_SINGLE_PALNE_SUPPORT"],
+        default: [],
+    }) + select(soong_config_variable("openmax", "FRAMERATE_THRESH_HOLD"), {
+        any @ flag_val: ["-DFRAMERATE_THRESH_HOLD=" + flag_val],
+        default: [],
+    }),
+
+    srcs: [
+        "ExynosVideoInterface.c",
+        "osal/ExynosVideo_OSAL.c",
+        "dec/ExynosVideoDecoder.c",
+        "enc/ExynosVideoEncoder.c",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+        "media_plugin_headers",
+    ],
+
+    local_include_dirs: [
+        "include",
+        "osal/include",
+    ] + select(soong_config_variable("openmax", "USE_MFC_HEADER"), {
+        "true": ["mfc_headers"],
+        default: [],
+    }),
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/exynos/include",
+    ],
+}
