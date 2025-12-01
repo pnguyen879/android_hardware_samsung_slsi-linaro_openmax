@@ -8,46 +8,46 @@ cc_library_shared {
         "-Wno-unused-label",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "USE_DISABLE_RAPID_COMPONENT_LOA"), {
-        "true": ["-DUSE_DISABLE_RAPID_COMPONENT_LOA"],
+        true: ["-DUSE_DISABLE_RAPID_COMPONENT_LOA"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_CUSTOM_COMPONENT_SUPPORT"), {
-        "true": ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
+        true: ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "TUNNELING_SUPPORT"), {
-        "true": ["-DTUNNELING_SUPPORT"],
+        true: ["-DTUNNELING_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "EGL_IMAGE_SUPPORT"), {
-        "true": ["-DEGL_IMAGE_SUPPORT"],
+        true: ["-DEGL_IMAGE_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_HEVCENC_SUPPORT"), {
-        "true": [],
+        true: [],
         default: [
             "-DDISABLE_HEVC_ENC_CODEC",
             "-DDISABLE_CODEC_COMP",
         ],
     }) + select(soong_config_variable("openmax", "USE_VP9DEC_SUPPORT"), {
-        "true": [],
+        true: [],
         default: [
             "-DDISABLE_VP9_DEC_CODEC",
             "-DDISABLE_CODEC_COMP",
         ],
     }) + select(soong_config_variable("openmax", "USE_VP9ENC_SUPPORT"), {
-        "true": [],
+        true: [],
         default: [
             "-DDISABLE_VP9_ENC_CODEC",
             "-DDISABLE_CODEC_COMP",
         ],
     }) + select(soong_config_variable("openmax", "USE_WFDENC_SUPPORT"), {
-        "true": [],
+        true: [],
         default: [
             "-DDISABLE_WFD_ENC_CODEC",
             "-DDISABLE_CODEC_COMP",
         ],
     }) + select(soong_config_variable("openmax", "USE_NON_DRM_CODEC_ONLY"), {
-        "true": [],
+        true: [],
         default: [
             "-DDISABLE_SECURE_CODEC",
             "-DDISABLE_CODEC_COMP",

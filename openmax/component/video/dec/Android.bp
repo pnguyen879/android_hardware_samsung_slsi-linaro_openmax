@@ -7,19 +7,19 @@ cc_library_static {
         "-Wno-unused-label",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
-        "true": ["-DUSE_DMA_BUF"],
+        true: ["-DUSE_DMA_BUF"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
-        "true": ["-DUSE_CSC_HW"],
+        true: ["-DUSE_CSC_HW"],
         default: [],
     }) + select(soong_config_variable("openmax", "TUNNELING_SUPPORT"), {
-        "true": ["-DTUNNELING_SUPPORT"],
+        true: ["-DTUNNELING_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SMALL_SECURE_MEMORY"), {
-        "true": ["-DUSE_SMALL_SECURE_MEMORY"],
+        true: ["-DUSE_SMALL_SECURE_MEMORY"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_COMPRESSED_COLOR"), {
-        "true": ["-DUSE_COMPRESSED_COLOR"],
+        true: ["-DUSE_COMPRESSED_COLOR"],
         default: [],
     }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],

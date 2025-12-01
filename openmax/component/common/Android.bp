@@ -8,7 +8,7 @@ cc_library_static {
         "-Wno-unused-function",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "EGL_IMAGE_SUPPORT"), {
-        "true": ["-DEGL_IMAGE_SUPPORT"],
+        true: ["-DEGL_IMAGE_SUPPORT"],
         default: [],
    }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
@@ -58,19 +58,19 @@ cc_library_shared {
         "-Wno-unused-function",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "EGL_IMAGE_SUPPORT"), {
-        "true": ["-DEGL_IMAGE_SUPPORT"],
+        true: ["-DEGL_IMAGE_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
         default: [],
     }) + select(soong_config_variable("openmax", "TUNNELING_SUPPORT"), {
-        "true": ["-DTUNNELING_SUPPORT"],
+        true: ["-DTUNNELING_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SECURE_WITH_NONSECURE"), {
-        "true": ["-DUSE_SECURE_WITH_NONSECURE"],
+        true: ["-DUSE_SECURE_WITH_NONSECURE"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SINGLE_DRM"), {
-        "true": ["-DUSE_SINGLE_DRM"],
+        true: ["-DUSE_SINGLE_DRM"],
         default: [],
     }) + select(soong_config_variable("openmax", "MAX_COMPONENT_NU"), {
         any @ flag_val: ["-DMAX_COMPONENT_NU=" + flag_val],

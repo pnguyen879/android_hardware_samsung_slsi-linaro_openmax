@@ -82,40 +82,40 @@ cc_library_static {
         "-DUSE_VENDOR_IMAGE",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
-        "true": ["-DUSE_DMA_BUF"],
+        true: ["-DUSE_DMA_BUF"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
-        "true": ["-DUSE_CSC_HW"],
+        true: ["-DUSE_CSC_HW"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_NON_CACHED_GRAPHICBUFFER"), {
-        "true": ["-DUSE_NON_CACHED_GRAPHICBUFFER"],
+        true: ["-DUSE_NON_CACHED_GRAPHICBUFFER"],
         default: [],
     }) + select(soong_config_variable("openmax", "CHROMA_VALIGN"), {
         any @ flag_val: ["-DCHROMA_VALIGN=" + flag_val],
         default: ["-DCHROMA_VALIGN=1"],
     }) + select(soong_config_variable("openmax", "USE_WA_ION_BUF_REF"), {
-        "true": ["-DUSE_WA_ION_BUF_REF"],
+        true: ["-DUSE_WA_ION_BUF_REF"],
         default: [],
     }) + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
-        "true": ["-DOMX_USES_EPIC"],
+        true: ["-DOMX_USES_EPIC"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_BT709_SUPPORT"), {
-        "true": ["-DUSE_BT709_SUPPORT"],
+        true: ["-DUSE_BT709_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "GRALLOC_VERSION0"), {
-        "true": ["-DGRALLOC_VERSION0"],
+        true: ["-DGRALLOC_VERSION0"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_PRIV_FORMAT"), {
-        "true": ["-DUSE_PRIV_FORMAT"],
+        true: ["-DUSE_PRIV_FORMAT"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_PRIV_USAGE"), {
-        "true": ["-DUSE_PRIV_USAGE"],
+        true: ["-DUSE_PRIV_USAGE"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SKYPE_HD"), {
-        "true": ["-DUSE_SKYPE_HD"],
+        true: ["-DUSE_SKYPE_HD"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_FULL_ST2094_40"), {
-        "true": ["-DUSE_FULL_ST2094_40"],
+        true: ["-DUSE_FULL_ST2094_40"],
         default: [],
     }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
@@ -167,7 +167,7 @@ cc_library_static {
         "libexynosgraphicbuffer",
         "libion_exynos",
     ] + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
-        "true": ["libepicoperator"],
+        true: ["libepicoperator"],
         default: [],
     }),
 

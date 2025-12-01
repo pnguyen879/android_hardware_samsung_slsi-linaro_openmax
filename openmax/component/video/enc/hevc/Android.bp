@@ -3,7 +3,7 @@ cc_library_shared {
     relative_install_path: "omx",
     vendor: true,
     enabled: select(soong_config_variable("openmax", "USE_HEVCENC_SUPPORT"), {
-        "true": true,
+        true: true,
         default: false,
     }),
 
@@ -13,25 +13,25 @@ cc_library_shared {
         "-Wno-unused-label",
         "-DUSE_ANDROID",
     ] + select(soong_config_variable("openmax", "USE_DMA_BUF"), {
-        "true": ["-DUSE_DMA_BUF"],
+        true: ["-DUSE_DMA_BUF"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_CSC_HW"), {
-        "true": ["-DUSE_CSC_HW"],
+        true: ["-DUSE_CSC_HW"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_CUSTOM_COMPONENT_SUPPORT"), {
-        "true": ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
+        true: ["-DUSE_CUSTOM_COMPONENT_SUPPORT"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SINGLE_PLANE_IN_DRM"), {
-        "true": ["-DUSE_SINGLE_PLANE_IN_DRM"],
+        true: ["-DUSE_SINGLE_PLANE_IN_DRM"],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_FULL_ST2094_40"), {
-        "true": ["-DUSE_FULL_ST2094_40"],
+        true: ["-DUSE_FULL_ST2094_40"],
         default: [],
     }) + select(soong_config_variable("arm_gralloc", "exynos_s10b_format_align"), {
         any @ flag_val: ["-DS10B_FORMAT_8B_ALIGNMENT=" + flag_val],
         default: [],
     }) + select(soong_config_variable("openmax", "USE_SMALL_SECURE_MEMORY"), {
-        "true": ["-DUSE_SMALL_SECURE_MEMORY"],
+        true: ["-DUSE_SMALL_SECURE_MEMORY"],
         default: [],
     }),
 
@@ -56,7 +56,7 @@ cc_library_shared {
         "libcsc",
         "libExynosOMX_Resourcemanager",
     ] + select(soong_config_variable("openmax", "OMX_USES_EPIC"), {
-        "true": ["libepicoperator"],
+        true: ["libepicoperator"],
         default: [],
     }),
 
